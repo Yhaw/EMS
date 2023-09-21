@@ -26,11 +26,11 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
       appBar: AppBar(
         title: Text('Device Details'),
       ),
-      body: FutureBuilder<DocumentSnapshot>(
-        future: FirebaseFirestore.instance
+      body: StreamBuilder<DocumentSnapshot>(
+        stream: FirebaseFirestore.instance
             .collection('Devices')
             .doc(widget.deviceName)
-            .get(),
+            .snapshots(), // Listen for real-time updates
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -44,7 +44,7 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
           }
 
           final data = snapshot.data!.data() as Map<String, dynamic>;
-          isDeviceOn = data['DeviceStatus'] == 1;
+          isDeviceOn = data['DeviceStatus'];
 
           return Padding(
             padding: const EdgeInsets.all(16.0),
@@ -142,7 +142,7 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
                     FirebaseFirestore.instance
                         .collection('Devices')
                         .doc(widget.deviceName)
-                        .update({'DeviceStatus': newValue ? 1 : 0}).then((_) {
+                        .update({'DeviceStatus': newValue}).then((_) {
                       setState(() {
                         isDeviceOn = newValue;
                       });

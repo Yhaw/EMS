@@ -60,7 +60,7 @@ class _DeviceDetailsScreenState extends State<DeviceDetailsScreen> {
                 _buildDashboardItem('Current', '${data['Current'] ?? "N/A"} A'),
                 _buildDashboardItem('Voltage', '${data['Voltage'] ?? "N/A"} V'),
                 _buildDashboardItem('Power', '${data['Power'] ?? "N/A"} W'),
-                _buildDashboardItem('Energy', '${data['Energy'] ?? "N/A"} J'),
+                _buildDashboardItem('Energy', '${data['Energy'] ?? "N/A"} kWh'),
               ],
             ),
           );
